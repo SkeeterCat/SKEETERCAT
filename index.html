@@ -1,4 +1,5 @@
-  <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -11,8 +12,9 @@
   .logo-box img { width:160px; border-radius:20px; display:block; }
   h1 { font-family:'Fredoka',sans-serif; font-size:38px; color:#ff8c00; margin:25px 10px 10px; text-shadow:0 3px 0 #000; letter-spacing:1px; line-height:1; }
   .tagline { max-width:340px; padding:0 20px; color:#ccc; font-size:16px; line-height:1.5; margin-bottom:28px; }
-  .btn { display:block; width:260px; padding:16px; margin:12px auto; border-radius:999px; font-weight:900; font-size:16px; text-decoration:none; letter-spacing:0.5px; }
+  .btn { display:block; width:260px; padding:16px; margin:12px auto; border-radius:999px; font-weight:900; font-size:16px; text-decoration:none; letter-spacing:0.5px; cursor:pointer; border:none; }
   .btn-primary { background:#ff8c00; color:black; }
+  .btn-primary:active { transform:scale(0.95); }
   .ca { margin-top:24px; color:#777; font-family:monospace; font-size:14px; }
   .card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:24px; padding:24px; margin-top:60px; width:80%; max-width:360px; backdrop-filter:blur(10px); }
   .card b { color:#ff8c00; font-size:20px; font-family:'Fredoka',sans-serif; }
@@ -26,7 +28,7 @@
   <h1>$SKEETERCAT</h1>
   <div class="tagline">🦟🐱 Not sucking blood, sucking green candles. The Orange Mosquito memecoin pumping on Solana</div>
   
-  <a href="#" class="btn btn-primary">BUY ON PUMP.FUN</a>
+  <button id="buyBtn" class="btn btn-primary">BUY ON PUMP.FUN</button>
   
   <div class="ca">CA: Coming Soon...</div>
 
@@ -36,5 +38,29 @@
   </div>
 
   <footer>© 2026 SKEETERCAT</footer>
+
+<script>
+  const buyBtn = document.getElementById('buyBtn');
+  let audioCtx;
+  function buzz() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(180, audioCtx.currentTime);
+      o.frequency.linearRampToValueAtTime(600, audioCtx.currentTime + 0.15);
+      o.frequency.linearRampToValueAtTime(320, audioCtx.currentTime + 0.6);
+      g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.7);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(); o.stop(audioCtx.currentTime + 0.7);
+    } catch(e){}
+  }
+  buyBtn.addEventListener('click', () => {
+    buzz();
+    setTimeout(()=>{ window.open('https://pump.fun', '_blank'); }, 300);
+  });
+</script>
 </body>
 </html>
